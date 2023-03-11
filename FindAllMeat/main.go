@@ -19,7 +19,11 @@ func main() {
 	r.GET("/beef/summary", func(c *gin.Context) {
 		var beef Beef
 		beef.Beef = findAllMeats(getMeat())
-		c.JSON(http.StatusOK, beef)
+		if beef.Beef != nil {
+			c.JSON(http.StatusOK, beef)
+		} else {
+			c.JSON(http.StatusServiceUnavailable, gin.H{"message": "Service Unavailable"})
+		}
 	})
 
 	r.Run()
